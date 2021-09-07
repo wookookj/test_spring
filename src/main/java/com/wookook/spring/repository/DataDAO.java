@@ -30,7 +30,7 @@ public class DataDAO {
 	    return conn;
 	}
 
-	public List<BookVO> getList() throws SQLException{
+	public List<BookVO> getList(){
 	    List<BookVO> list = new ArrayList<BookVO>();
 	    Connection conn = null;
 	    PreparedStatement pstmt = null;
@@ -51,18 +51,101 @@ public class DataDAO {
 	        	bvo.setPublisher(rs.getString("publisher"));
 	        	bvo.setPrice(rs.getInt("price"));
 	        	list.add(bvo);
-	        }
-	       
+	        }	       
 	    }
 	    catch (SQLException e) {
-	        System.out.println( e);
 	    }
 	    finally {	    	
-		    rs.close();
-		    pstmt.close();
-			conn.close();
+		    try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		    try {
+				pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 	    }
 	    return list;
+	}
+	
+	public boolean insertList(BookVO Bvo){
+	    boolean result = false;
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+
+	    try {
+	        conn = getConnection();
+
+	        String sql = "insert into book values(?,?,?,?)";
+	        pstmt = conn.prepareStatement(sql);
+	      
+			pstmt.setInt(1, Bvo.getBookid());
+			pstmt.setString(2, Bvo.getBookname());
+			pstmt.setString(3, Bvo.getPublisher());
+			pstmt.setInt(4, Bvo.getPrice());
+			int resultcount = pstmt.executeUpdate();
+			
+	        if(resultcount > 0) {
+	        	result = true;
+	        }
+	    }
+	    catch (SQLException e) {
+	    }
+	    finally {
+	    	try {
+				pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+	    	try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+	    }
+	    return result;
+	}
+
+	public boolean deleteList(int bookid) {
+	    boolean result = false;
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+
+	    try {
+	        conn = getConnection();
+
+	        String sql = "delete from book where bookid=?";
+	        pstmt = conn.prepareStatement(sql);
+	      
+			pstmt.setInt(1, bookid);
+			int resultcount = pstmt.executeUpdate();
+			
+	        if(resultcount > 0) {
+	        	result = true;
+	        }
+	    }
+	    catch (SQLException e) {
+	    }
+	    finally {
+	    	try {
+				pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+	    	try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+	    }
+	    return result;
 	}
 
 }

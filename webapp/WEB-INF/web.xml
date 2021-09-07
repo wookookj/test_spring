@@ -10,6 +10,12 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
 
+
+
+<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+</listener>
+
 <!-- Bean(객체) 관리 -->
 <context-param>
 		<param-name>contextConfigLocation</param-name>
@@ -42,9 +48,7 @@
 		</init-param>
 </filter>
 
-<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-</listener>
+
 
 <filter-mapping>
 	<filter-name>encodingFilter</filter-name>

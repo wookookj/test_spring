@@ -4,7 +4,7 @@
 <%@ page import = "java.util.*"%>
 <!DOCTYPE html>
 <html>
-<head>
+<head>rwp
 <meta charset="EUC-KR">
 <title>Insert title here</title>
 </head>
@@ -16,6 +16,7 @@
 		out.println(list.get(i).getBookname());
 		out.println(list.get(i).getPublisher());
 		out.println(list.get(i).getPrice());
+		out.println("<input type = 'button' value = '삭제' onclick=" + "location.href='bookdelete?bookid="+ list.get(i).getBookid() +"'>");
 		out.println("<br>");
 	} %>
 	
